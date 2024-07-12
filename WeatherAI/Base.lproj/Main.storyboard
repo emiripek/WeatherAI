@@ -5,6 +5,7 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22504"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="collection view cell content view" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -41,6 +42,63 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="6bL-dT-ZcV">
+                                <rect key="frame" x="20" y="495" width="353" height="160"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="160" id="xHm-aZ-CKQ"/>
+                                </constraints>
+                                <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="Zhi-jk-6I5">
+                                    <size key="itemSize" width="66" height="154"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="WeatherCollectionViewCell" id="pQN-vE-enb" customClass="WeatherCollectionViewCell" customModule="WeatherAI" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="0.0" width="55" height="154"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="qbz-V9-Tp3">
+                                            <rect key="frame" x="0.0" y="0.0" width="55" height="154"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="9AM" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="61G-gj-UcU">
+                                                    <rect key="frame" x="5.6666666666666679" y="0.0" width="44" height="28"/>
+                                                    <fontDescription key="fontDescription" name="PingFangSC-Semibold" family="PingFang SC" pointSize="20"/>
+                                                    <color key="textColor" red="0.45098039215686275" green="0.47843137254901957" blue="0.51372549019607838" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="03_cloud_color" translatesAutoresizingMaskIntoConstraints="NO" id="6If-qR-Oq0">
+                                                    <rect key="frame" x="9.6666666666666643" y="59" width="36" height="36"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="36" id="34o-bo-BgA"/>
+                                                        <constraint firstAttribute="width" constant="36" id="tki-tP-vaU"/>
+                                                    </constraints>
+                                                </imageView>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="18°" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Vp7-NI-3bN">
+                                                    <rect key="frame" x="8" y="124" width="39.333333333333336" height="30"/>
+                                                    <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="25"/>
+                                                    <color key="textColor" red="0.45098039215686275" green="0.47843137254901957" blue="0.51372549019607838" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="6If-qR-Oq0" firstAttribute="centerX" secondItem="qbz-V9-Tp3" secondAttribute="centerX" id="D97-OP-DhP"/>
+                                                <constraint firstItem="Vp7-NI-3bN" firstAttribute="centerX" secondItem="qbz-V9-Tp3" secondAttribute="centerX" id="Tdb-dR-JmN"/>
+                                                <constraint firstItem="61G-gj-UcU" firstAttribute="top" secondItem="qbz-V9-Tp3" secondAttribute="top" id="XxN-jx-TXa"/>
+                                                <constraint firstItem="6If-qR-Oq0" firstAttribute="centerY" secondItem="qbz-V9-Tp3" secondAttribute="centerY" id="gUr-bv-vHn"/>
+                                                <constraint firstAttribute="trailing" secondItem="61G-gj-UcU" secondAttribute="trailing" constant="5.5" id="kMj-mi-z3O"/>
+                                                <constraint firstAttribute="bottom" secondItem="Vp7-NI-3bN" secondAttribute="bottom" id="uHQ-X1-y72"/>
+                                                <constraint firstItem="61G-gj-UcU" firstAttribute="leading" secondItem="qbz-V9-Tp3" secondAttribute="leading" constant="5.5" id="xfo-QF-17R"/>
+                                            </constraints>
+                                        </collectionViewCellContentView>
+                                        <connections>
+                                            <outlet property="hourlyTemperatureLabel" destination="Vp7-NI-3bN" id="jJF-Bs-sGu"/>
+                                            <outlet property="timeLabel" destination="61G-gj-UcU" id="6cG-Xl-fS1"/>
+                                            <outlet property="weatherImageView" destination="6If-qR-Oq0" id="3Hi-dm-TAX"/>
+                                        </connections>
+                                    </collectionViewCell>
+                                </cells>
+                            </collectionView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -48,10 +106,15 @@
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="EvL-Sh-Ck0" secondAttribute="trailing" constant="232" id="4zn-Kd-wuf"/>
                             <constraint firstItem="EvL-Sh-Ck0" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="40" id="Dr6-Vk-8uU"/>
                             <constraint firstItem="SEU-rO-MFd" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="E2N-9F-RsH"/>
+                            <constraint firstItem="6bL-dT-ZcV" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="QrD-r6-WGz"/>
+                            <constraint firstItem="6bL-dT-ZcV" firstAttribute="top" secondItem="lDQ-ow-ERA" secondAttribute="bottom" constant="30" id="SO1-h8-n1U"/>
                             <constraint firstItem="SEU-rO-MFd" firstAttribute="top" secondItem="y7V-Wc-nGR" secondAttribute="bottom" constant="32" id="XAl-M7-SsR"/>
                             <constraint firstItem="y7V-Wc-nGR" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="Xxv-Ku-NRu"/>
                             <constraint firstItem="lDQ-ow-ERA" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="aie-sd-0WN"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="6bL-dT-ZcV" secondAttribute="trailing" constant="20" id="e3i-rS-BIl"/>
+                            <constraint firstItem="6bL-dT-ZcV" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="lhM-my-GqL"/>
                             <constraint firstItem="EvL-Sh-Ck0" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="lya-hK-mYw"/>
+                            <constraint firstItem="6bL-dT-ZcV" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="nsw-If-bx1"/>
                             <constraint firstItem="lDQ-ow-ERA" firstAttribute="top" secondItem="SEU-rO-MFd" secondAttribute="bottom" constant="30" id="oxX-hD-HnM"/>
                             <constraint firstItem="y7V-Wc-nGR" firstAttribute="top" secondItem="EvL-Sh-Ck0" secondAttribute="bottom" constant="66" id="vfi-Ug-2df"/>
                         </constraints>
@@ -59,6 +122,7 @@
                     <connections>
                         <outlet property="cityNameLabel" destination="EvL-Sh-Ck0" id="BNh-ox-EFa"/>
                         <outlet property="temperatureLabel" destination="lDQ-ow-ERA" id="4YG-DO-9WF"/>
+                        <outlet property="weatherCollectionView" destination="6bL-dT-ZcV" id="DbO-Bg-pBQ"/>
                         <outlet property="weatherIconImageView" destination="y7V-Wc-nGR" id="FJj-UI-ZhS"/>
                         <outlet property="weatherLabel" destination="SEU-rO-MFd" id="ZhC-lf-uON"/>
                     </connections>
@@ -69,6 +133,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="03_cloud_color" width="36" height="36"/>
         <image name="thunderstorm" width="160" height="160"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

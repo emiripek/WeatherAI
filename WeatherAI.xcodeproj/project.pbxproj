@@ -14,6 +14,7 @@
 		F9C71D9B2C407A8E00FF8B0C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F9C71D9A2C407A8E00FF8B0C /* Assets.xcassets */; };
 		F9C71D9E2C407A8E00FF8B0C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F9C71D9C2C407A8E00FF8B0C /* LaunchScreen.storyboard */; };
 		F9C71DA62C407C3200FF8B0C /* GradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9C71DA52C407C3200FF8B0C /* GradientView.swift */; };
+		F9C71DAB2C40928200FF8B0C /* WeatherCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9C71DAA2C40928200FF8B0C /* WeatherCollectionViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +27,7 @@
 		F9C71D9D2C407A8E00FF8B0C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		F9C71D9F2C407A8E00FF8B0C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F9C71DA52C407C3200FF8B0C /* GradientView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientView.swift; sourceTree = "<group>"; };
+		F9C71DAA2C40928200FF8B0C /* WeatherCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherCollectionViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -82,6 +84,7 @@
 			isa = PBXGroup;
 			children = (
 				F9C71DA52C407C3200FF8B0C /* GradientView.swift */,
+				F9C71DAA2C40928200FF8B0C /* WeatherCollectionViewCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -165,6 +168,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F9C71DAB2C40928200FF8B0C /* WeatherCollectionViewCell.swift in Sources */,
 				F9C71DA62C407C3200FF8B0C /* GradientView.swift in Sources */,
 				F9C71D962C407A8D00FF8B0C /* WeatherVC.swift in Sources */,
 				F9C71D922C407A8D00FF8B0C /* AppDelegate.swift in Sources */,
