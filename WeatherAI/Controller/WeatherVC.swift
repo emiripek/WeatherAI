@@ -25,12 +25,52 @@ class WeatherVC: UIViewController {
         super.viewDidLoad()
         setupCollectionViewLayout()
         configureWeatherCollectionView()
+        let latitude = 41.0082
+        let longitude = 28.9784
+        fetchWeatherData(latitude: latitude, longitude: longitude)
     }
     
     func configureWeatherCollectionView() {
         weatherCollectionView.dataSource = self
         weatherCollectionView.delegate = self
         weatherCollectionView.backgroundColor = .clear
+    }
+    
+    func fetchWeatherData(latitude: Double, longitude: Double) {
+        NetworkManager.shared.fetchWeatherData(latitude: latitude, longitude: longitude) { result in
+            switch result {
+            case .success(let weatherResponse):
+                DispatchQueue.main.async {
+                    self.updateUI(with: weatherResponse)
+                }
+            case .failure(let error):
+                print("Failed to fetch weather data: \(error)")
+            }
+        }
+    }
+    
+    func updateUI(with weatherResponse: WeatherResponse) {
+        cityNameLabel.text = weatherResponse.name
+        let temperatureInt = Int(weatherResponse.main.temp)
+        temperatureLabel.text = "\(temperatureInt)°"
+        weatherLabel.text = weatherResponse.weather.first?.description.capitalizedWords()
+        
+        if let icon = weatherResponse.weather.first?.icon {
+            let iconURL = URL(string: "https://openweathermap.org/img/wn/\(icon)@4x.png")
+            loadImage(from: iconURL)
+        }
+    }
+    
+    func loadImage(from url: URL?) {
+        guard let url = url else { return }
+        
+        DispatchQueue.global().async {
+            if let data = try? Data(contentsOf: url), let image = UIImage(data: data) {
+                DispatchQueue.main.async {
+                    self.weatherIconImageView.image = image
+                }
+            }
+        }
     }
 }
 
@@ -56,6 +96,7 @@ extension WeatherVC: UICollectionViewDataSource, UICollectionViewDelegate, UICol
             layout.minimumLineSpacing = 10
             layout.minimumInteritemSpacing = 10
             layout.sectionInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+            layout.scrollDirection = .horizontal
         }
     }
 }
