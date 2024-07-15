@@ -8,18 +8,12 @@
 import Foundation
 
 class NetworkManager {
-    
     static let shared = NetworkManager()
     private init() {}
     
     func fetchWeatherData(latitude: Double, longitude: Double, completion: @escaping (Result<WeatherResponse, Error>) -> Void) {
-        let apiKey = "0c7ab8828869b4c4f6245a2a1e3a4907"
-        let urlString = "https://api.openweathermap.org/data/2.5/weather?lat=\(latitude)&lon=\(longitude)&appid=\(apiKey)&units=metric"
-        
-        guard let url = URL(string: urlString) else {
-            completion(.failure(NSError(domain: "", code: -1, userInfo: [NSLocalizedDescriptionKey: "Invalid URL"])))
-            return
-        }
+        let urlString = "https://api.openweathermap.org/data/2.5/weather?lat=\(latitude)&lon=\(longitude)&appid=0c7ab8828869b4c4f6245a2a1e3a4907&units=metric"
+        guard let url = URL(string: urlString) else { return }
         
         let task = URLSession.shared.dataTask(with: url) { data, response, error in
             if let error = error {
@@ -28,13 +22,39 @@ class NetworkManager {
             }
             
             guard let data = data else {
-                completion(.failure(NSError(domain: "", code: -1, userInfo: [NSLocalizedDescriptionKey: "No data received"])))
+                completion(.failure(NSError(domain: "dataNilError", code: -10001, userInfo: nil)))
                 return
             }
             
             do {
                 let weatherResponse = try JSONDecoder().decode(WeatherResponse.self, from: data)
                 completion(.success(weatherResponse))
+            } catch {
+                completion(.failure(error))
+            }
+        }
+        
+        task.resume()
+    }
+    
+    func fetchForecastData(latitude: Double, longitude: Double, completion: @escaping (Result<WeatherForecastResponse, Error>) -> Void) {
+        let urlString = "https://api.openweathermap.org/data/2.5/forecast?lat=\(latitude)&lon=\(longitude)&appid=0c7ab8828869b4c4f6245a2a1e3a4907&units=metric"
+        guard let url = URL(string: urlString) else { return }
+        
+        let task = URLSession.shared.dataTask(with: url) { data, response, error in
+            if let error = error {
+                completion(.failure(error))
+                return
+            }
+            
+            guard let data = data else {
+                completion(.failure(NSError(domain: "dataNilError", code: -10001, userInfo: nil)))
+                return
+            }
+            
+            do {
+                let forecastResponse = try JSONDecoder().decode(WeatherForecastResponse.self, from: data)
+                completion(.success(forecastResponse))
             } catch {
                 completion(.failure(error))
             }

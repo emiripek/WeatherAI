@@ -15,25 +15,37 @@ class WeatherVC: UIViewController {
     @IBOutlet weak var temperatureLabel: UILabel!
     @IBOutlet weak var weatherCollectionView: UICollectionView!
     
-    // MARK: - Dummy Data for collection view
-    let times = ["9AM", "10AM", "11AM", "12PM", "1PM"]
-    let temperatures = ["18°", "19°", "24°", "25°", "26°"]
-    let weatherIcons = ["01_sunny_color", "03_cloud_color", "04_sun_cloudy_color", "09_light_rain_color", "38_blowing_sand_color"]
+    var forecastData: [WeatherForecastResponse.Forecast] = []
+    let latitude = 41.0082
+    let longitude = 28.9784
+    
+    //    // MARK: - Dummy Data for collection view
+    //    let times = ["9AM", "10AM", "11AM", "12PM", "1PM"]
+    //    let temperatures = ["18°", "19°", "24°", "25°", "26°"]
+    //    let weatherIcons = ["01_sunny_color", "03_cloud_color", "04_sun_cloudy_color", "09_light_rain_color", "38_blowing_sand_color"]
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupCollectionViewLayout()
         configureWeatherCollectionView()
-        let latitude = 41.0082
-        let longitude = 28.9784
         fetchWeatherData(latitude: latitude, longitude: longitude)
+        fetchForecastData(latitude: latitude, longitude: longitude)
     }
     
     func configureWeatherCollectionView() {
         weatherCollectionView.dataSource = self
         weatherCollectionView.delegate = self
         weatherCollectionView.backgroundColor = .clear
+        setupCollectionViewLayout()
+    }
+    
+    func setupCollectionViewLayout() {
+        if let layout = weatherCollectionView.collectionViewLayout as? UICollectionViewFlowLayout {
+            layout.minimumLineSpacing = 10
+            layout.minimumInteritemSpacing = 10
+            layout.sectionInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+            layout.scrollDirection = .horizontal
+        }
     }
     
     func fetchWeatherData(latitude: Double, longitude: Double) {
@@ -45,6 +57,21 @@ class WeatherVC: UIViewController {
                 }
             case .failure(let error):
                 print("Failed to fetch weather data: \(error)")
+            }
+        }
+    }
+    
+    func fetchForecastData(latitude: Double, longitude: Double) {
+        NetworkManager.shared.fetchForecastData(latitude: latitude, longitude: longitude) { result in
+            switch result {
+            case .success(let forecastResponse):
+                DispatchQueue.main.async {
+                    self.cityNameLabel.text = forecastResponse.city.name
+                    self.forecastData = forecastResponse.list
+                    self.weatherCollectionView.reloadData()
+                }
+            case .failure(let error):
+                print("Failed to fetch forecast data: \(error)")
             }
         }
     }
@@ -74,30 +101,50 @@ class WeatherVC: UIViewController {
     }
 }
 
-extension WeatherVC: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
+extension WeatherVC: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return times.count
+        return forecastData.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "WeatherCollectionViewCell", for: indexPath) as! WeatherCollectionViewCell
-        cell.timeLabel.text = times[indexPath.item]
-        cell.hourlyTemperatureLabel.text = temperatures[indexPath.item]
-        cell.weatherImageView.image = UIImage(named: weatherIcons[indexPath.item])
+        let forecast = forecastData[indexPath.item]
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "ha"
+        let timeString = dateFormatter.string(from: Date(timeIntervalSince1970: forecast.dt))
+        
+        cell.timeLabel.text = timeString
+        cell.hourlyTemperatureLabel.text = "\(Int(forecast.main.temp))°"
+        
+        if let icon = forecast.weather.first?.icon {
+            let iconURL = URL(string: "https://openweathermap.org/img/wn/\(icon)@2x.png")
+            loadImage(from: iconURL, into: cell.weatherImageView)
+        }
+        
         return cell
     }
     
+    func loadImage(from url: URL?, into imageView: UIImageView) {
+        guard let url = url else { return }
+        
+        DispatchQueue.global().async {
+            if let data = try? Data(contentsOf: url), let image = UIImage(data: data) {
+                DispatchQueue.main.async {
+                    imageView.image = image
+                }
+            }
+        }
+    }
+}
+
+extension WeatherVC: UICollectionViewDelegate {
+    
+}
+
+extension WeatherVC: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: 80, height: 120)
-    }
-    
-    func setupCollectionViewLayout() {
-        if let layout = weatherCollectionView.collectionViewLayout as? UICollectionViewFlowLayout {
-            layout.minimumLineSpacing = 10
-            layout.minimumInteritemSpacing = 10
-            layout.sectionInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
-            layout.scrollDirection = .horizontal
-        }
     }
 }
 
