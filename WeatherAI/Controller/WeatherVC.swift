@@ -44,7 +44,6 @@ class WeatherVC: UIViewController {
             layout.minimumLineSpacing = 10
             layout.minimumInteritemSpacing = 10
             layout.sectionInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
-            layout.scrollDirection = .horizontal
         }
     }
     
@@ -107,39 +106,10 @@ extension WeatherVC: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "WeatherCollectionViewCell", for: indexPath) as! WeatherCollectionViewCell
-        let forecast = forecastData[indexPath.item]
-        
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "ha"
-        let timeString = dateFormatter.string(from: Date(timeIntervalSince1970: forecast.dt))
-        
-        cell.timeLabel.text = timeString
-        cell.hourlyTemperatureLabel.text = "\(Int(forecast.main.temp))°"
-        
-        if let icon = forecast.weather.first?.icon {
-            let iconURL = URL(string: "https://openweathermap.org/img/wn/\(icon)@2x.png")
-            loadImage(from: iconURL, into: cell.weatherImageView)
-        }
-        
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: WeatherCollectionViewCell.identifier, for: indexPath) as! WeatherCollectionViewCell
+        cell.populate(forecast: forecastData[indexPath.row])
         return cell
     }
-    
-    func loadImage(from url: URL?, into imageView: UIImageView) {
-        guard let url = url else { return }
-        
-        DispatchQueue.global().async {
-            if let data = try? Data(contentsOf: url), let image = UIImage(data: data) {
-                DispatchQueue.main.async {
-                    imageView.image = image
-                }
-            }
-        }
-    }
-}
-
-extension WeatherVC: UICollectionViewDelegate {
-    
 }
 
 extension WeatherVC: UICollectionViewDelegateFlowLayout {

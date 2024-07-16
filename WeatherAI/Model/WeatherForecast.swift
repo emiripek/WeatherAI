@@ -63,6 +63,17 @@ struct WeatherForecastResponse: Codable {
         struct Sys: Codable {
             let pod: String
         }
+        
+        func formattedTime() -> String {
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "ha"
+            let date = Date(timeIntervalSince1970: self.dt)
+            return dateFormatter.string(from: date)
+        }
+        
+        func formattedTemperature() -> String {
+            return "\(Int(self.main.temp))°"
+        }
     }
     
     struct City: Codable {

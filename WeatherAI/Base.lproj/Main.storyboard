@@ -43,11 +43,11 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="6bL-dT-ZcV">
-                                <rect key="frame" x="20" y="495" width="353" height="160"/>
+                                <rect key="frame" x="0.0" y="495" width="393" height="160"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="160" id="xHm-aZ-CKQ"/>
                                 </constraints>
-                                <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="Zhi-jk-6I5">
+                                <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="Zhi-jk-6I5">
                                     <size key="itemSize" width="66" height="154"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                     <size key="footerReferenceSize" width="0.0" height="0.0"/>
@@ -55,7 +55,7 @@
                                 </collectionViewFlowLayout>
                                 <cells>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="WeatherCollectionViewCell" id="pQN-vE-enb" customClass="WeatherCollectionViewCell" customModule="WeatherAI" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="0.0" width="55" height="154"/>
+                                        <rect key="frame" x="0.0" y="3" width="55" height="154"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="qbz-V9-Tp3">
                                             <rect key="frame" x="0.0" y="0.0" width="55" height="154"/>
@@ -111,10 +111,10 @@
                             <constraint firstItem="SEU-rO-MFd" firstAttribute="top" secondItem="y7V-Wc-nGR" secondAttribute="bottom" constant="32" id="XAl-M7-SsR"/>
                             <constraint firstItem="y7V-Wc-nGR" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="Xxv-Ku-NRu"/>
                             <constraint firstItem="lDQ-ow-ERA" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="aie-sd-0WN"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="6bL-dT-ZcV" secondAttribute="trailing" constant="20" id="e3i-rS-BIl"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="6bL-dT-ZcV" secondAttribute="trailing" id="e3i-rS-BIl"/>
                             <constraint firstItem="6bL-dT-ZcV" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="lhM-my-GqL"/>
                             <constraint firstItem="EvL-Sh-Ck0" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="lya-hK-mYw"/>
-                            <constraint firstItem="6bL-dT-ZcV" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="nsw-If-bx1"/>
+                            <constraint firstItem="6bL-dT-ZcV" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="nsw-If-bx1"/>
                             <constraint firstItem="lDQ-ow-ERA" firstAttribute="top" secondItem="SEU-rO-MFd" secondAttribute="bottom" constant="30" id="oxX-hD-HnM"/>
                             <constraint firstItem="y7V-Wc-nGR" firstAttribute="top" secondItem="EvL-Sh-Ck0" secondAttribute="bottom" constant="66" id="vfi-Ug-2df"/>
                         </constraints>
