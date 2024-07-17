@@ -16,8 +16,8 @@ class WeatherVC: UIViewController {
     @IBOutlet weak var weatherCollectionView: UICollectionView!
     
     var forecastData: [WeatherForecastResponse.Forecast] = []
-    let latitude = 41.0082
-    let longitude = 28.9784
+    var latitude: Double = 41.0082
+    var longitude: Double = 28.9784
     
     //    // MARK: - Dummy Data for collection view
     //    let times = ["9AM", "10AM", "11AM", "12PM", "1PM"]
@@ -28,8 +28,18 @@ class WeatherVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureWeatherCollectionView()
+        getLocation()
         fetchWeatherData(latitude: latitude, longitude: longitude)
         fetchForecastData(latitude: latitude, longitude: longitude)
+    }
+    
+    func getLocation() {
+        LocationManager.shared.getCurrentLocation { location in
+            self.latitude = location.coordinate.latitude
+            self.longitude = location.coordinate.longitude
+            self.fetchWeatherData(latitude: self.latitude, longitude: self.longitude)
+            self.fetchForecastData(latitude: self.latitude, longitude: self.longitude)
+        }
     }
     
     func configureWeatherCollectionView() {
