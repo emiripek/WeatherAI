@@ -29,8 +29,6 @@ class WeatherVC: UIViewController {
         super.viewDidLoad()
         configureWeatherCollectionView()
         getLocation()
-        fetchWeatherData(latitude: latitude, longitude: longitude)
-        fetchForecastData(latitude: latitude, longitude: longitude)
     }
     
     func getLocation() {
@@ -58,6 +56,11 @@ class WeatherVC: UIViewController {
     }
     
     func fetchWeatherData(latitude: Double, longitude: Double) {
+        guard Reachability.isConnectedToNetwork() else {
+            fetchWeatherDataFromCoreData()
+            return
+        }
+        
         NetworkManager.shared.fetchWeatherData(latitude: latitude, longitude: longitude) { result in
             switch result {
             case .success(let weatherResponse):
@@ -66,11 +69,17 @@ class WeatherVC: UIViewController {
                 }
             case .failure(let error):
                 print("Failed to fetch weather data: \(error)")
+                self.fetchWeatherDataFromCoreData()
             }
         }
     }
     
     func fetchForecastData(latitude: Double, longitude: Double) {
+        guard Reachability.isConnectedToNetwork() else {
+            fetchForecastDataFromCoreData()
+            return
+        }
+        
         NetworkManager.shared.fetchForecastData(latitude: latitude, longitude: longitude) { result in
             switch result {
             case .success(let forecastResponse):
@@ -81,6 +90,7 @@ class WeatherVC: UIViewController {
                 }
             case .failure(let error):
                 print("Failed to fetch forecast data: \(error)")
+                self.fetchForecastDataFromCoreData()
             }
         }
     }
@@ -107,6 +117,24 @@ class WeatherVC: UIViewController {
                 }
             }
         }
+    }
+    
+    func fetchWeatherDataFromCoreData() {
+        if let weatherEntity = CoreDataManager.shared.fetchLatestWeatherData() {
+            DispatchQueue.main.async {
+                self.cityNameLabel.text = weatherEntity.city
+                self.temperatureLabel.text = "\(Int(weatherEntity.temp))°"
+                self.weatherLabel.text = weatherEntity.weatherDescription
+                
+                if let iconData = weatherEntity.iconData, let image = UIImage(data: iconData) {
+                    self.weatherIconImageView.image = image
+                }
+            }
+        }
+    }
+    
+    func fetchForecastDataFromCoreData() {
+        // Core Data'dan forecast verilerini çekme işlemi (ekleyebilirsiniz)
     }
 }
 

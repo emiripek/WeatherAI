@@ -28,7 +28,23 @@ class NetworkManager {
             
             do {
                 let weatherResponse = try JSONDecoder().decode(WeatherResponse.self, from: data)
-                completion(.success(weatherResponse))
+                
+                if let icon = weatherResponse.weather.first?.icon, let iconURL = URL(string: "https://openweathermap.org/img/wn/\(icon)@4x.png") {
+                    self.downloadIconData(from: iconURL) { result in
+                        switch result {
+                        case .success(let iconData):
+                            CoreDataManager.shared.saveWeatherData(weather: weatherResponse, iconData: iconData)
+                            completion(.success(weatherResponse))
+                        case .failure(let error):
+                            print("Failed to download icon data: \(error)")
+                            CoreDataManager.shared.saveWeatherData(weather: weatherResponse, iconData: nil)
+                            completion(.success(weatherResponse))
+                        }
+                    }
+                } else {
+                    CoreDataManager.shared.saveWeatherData(weather: weatherResponse, iconData: nil)
+                    completion(.success(weatherResponse))
+                }
             } catch {
                 completion(.failure(error))
             }
@@ -58,6 +74,24 @@ class NetworkManager {
             } catch {
                 completion(.failure(error))
             }
+        }
+        
+        task.resume()
+    }
+    
+    private func downloadIconData(from url: URL, completion: @escaping (Result<Data, Error>) -> Void) {
+        let task = URLSession.shared.dataTask(with: url) { data, response, error in
+            if let error = error {
+                completion(.failure(error))
+                return
+            }
+            
+            guard let data = data else {
+                completion(.failure(NSError(domain: "dataNilError", code: -10001, userInfo: nil)))
+                return
+            }
+            
+            completion(.success(data))
         }
         
         task.resume()
