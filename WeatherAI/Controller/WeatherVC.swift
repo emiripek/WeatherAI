@@ -14,6 +14,7 @@ class WeatherVC: UIViewController {
     @IBOutlet weak var weatherLabel: UILabel!
     @IBOutlet weak var temperatureLabel: UILabel!
     @IBOutlet weak var weatherCollectionView: UICollectionView!
+    @IBOutlet weak var noInternetView: UIView!
     
     var forecastData: [WeatherForecastResponse.Forecast] = []
     var latitude: Double = 41.0082
@@ -41,6 +42,7 @@ class WeatherVC: UIViewController {
     }
     
     func configureWeatherCollectionView() {
+        weatherCollectionView.isHidden = false
         weatherCollectionView.dataSource = self
         weatherCollectionView.delegate = self
         weatherCollectionView.backgroundColor = .clear
@@ -58,6 +60,8 @@ class WeatherVC: UIViewController {
     func fetchWeatherData(latitude: Double, longitude: Double) {
         guard Reachability.isConnectedToNetwork() else {
             fetchWeatherDataFromCoreData()
+            weatherCollectionView.isHidden = true
+            noInternetView.isHidden = false
             return
         }
         

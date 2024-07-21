@@ -99,6 +99,36 @@
                                     </collectionViewCell>
                                 </cells>
                             </collectionView>
+                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5xh-4v-Zuf">
+                                <rect key="frame" x="20" y="495" width="353" height="160"/>
+                                <subviews>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="wifi.slash" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="6bk-dD-dN4">
+                                        <rect key="frame" x="156" y="-0.66666666666666785" width="40" height="39.333333333333343"/>
+                                        <color key="tintColor" red="0.45098039220000002" green="0.47843137250000001" blue="0.51372549020000002" alpha="1" colorSpace="calibratedRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="40" id="KdQ-pZ-OkY"/>
+                                            <constraint firstAttribute="height" constant="40" id="MW8-ZQ-ULl"/>
+                                        </constraints>
+                                    </imageView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No internet connection for weather forecast please turn on your internet connection." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KFp-rc-hWj">
+                                        <rect key="frame" x="8.3333333333333428" y="50" width="336.33333333333326" height="40.666666666666657"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" red="0.45098039220000002" green="0.47843137250000001" blue="0.51372549020000002" alpha="1" colorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstItem="KFp-rc-hWj" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="5xh-4v-Zuf" secondAttribute="leading" id="0Ys-il-oaO"/>
+                                    <constraint firstItem="KFp-rc-hWj" firstAttribute="centerX" secondItem="5xh-4v-Zuf" secondAttribute="centerX" id="F8h-Zh-HmW"/>
+                                    <constraint firstAttribute="height" constant="160" id="GHk-YB-64I"/>
+                                    <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="KFp-rc-hWj" secondAttribute="trailing" id="Qkl-2d-0Mx"/>
+                                    <constraint firstAttribute="trailing" secondItem="6bk-dD-dN4" secondAttribute="trailing" constant="157" id="SPe-ku-fZP"/>
+                                    <constraint firstItem="KFp-rc-hWj" firstAttribute="top" secondItem="6bk-dD-dN4" secondAttribute="bottom" constant="10" id="Ss3-Mz-Ikz"/>
+                                    <constraint firstItem="6bk-dD-dN4" firstAttribute="top" secondItem="5xh-4v-Zuf" secondAttribute="top" id="Tej-ro-2N5"/>
+                                    <constraint firstItem="6bk-dD-dN4" firstAttribute="leading" secondItem="5xh-4v-Zuf" secondAttribute="leading" constant="156" id="mqo-Az-3Dl"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -108,19 +138,23 @@
                             <constraint firstItem="SEU-rO-MFd" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="E2N-9F-RsH"/>
                             <constraint firstItem="6bL-dT-ZcV" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="QrD-r6-WGz"/>
                             <constraint firstItem="6bL-dT-ZcV" firstAttribute="top" secondItem="lDQ-ow-ERA" secondAttribute="bottom" constant="30" id="SO1-h8-n1U"/>
+                            <constraint firstItem="5xh-4v-Zuf" firstAttribute="top" secondItem="lDQ-ow-ERA" secondAttribute="bottom" constant="30" id="VVy-C3-3oP"/>
                             <constraint firstItem="SEU-rO-MFd" firstAttribute="top" secondItem="y7V-Wc-nGR" secondAttribute="bottom" constant="32" id="XAl-M7-SsR"/>
                             <constraint firstItem="y7V-Wc-nGR" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="Xxv-Ku-NRu"/>
                             <constraint firstItem="lDQ-ow-ERA" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="aie-sd-0WN"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="6bL-dT-ZcV" secondAttribute="trailing" id="e3i-rS-BIl"/>
                             <constraint firstItem="6bL-dT-ZcV" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="lhM-my-GqL"/>
                             <constraint firstItem="EvL-Sh-Ck0" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="lya-hK-mYw"/>
+                            <constraint firstItem="5xh-4v-Zuf" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="m1C-Bg-5Ye"/>
                             <constraint firstItem="6bL-dT-ZcV" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="nsw-If-bx1"/>
                             <constraint firstItem="lDQ-ow-ERA" firstAttribute="top" secondItem="SEU-rO-MFd" secondAttribute="bottom" constant="30" id="oxX-hD-HnM"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="5xh-4v-Zuf" secondAttribute="trailing" constant="20" id="sAD-KG-trk"/>
                             <constraint firstItem="y7V-Wc-nGR" firstAttribute="top" secondItem="EvL-Sh-Ck0" secondAttribute="bottom" constant="66" id="vfi-Ug-2df"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="cityNameLabel" destination="EvL-Sh-Ck0" id="BNh-ox-EFa"/>
+                        <outlet property="noInternetView" destination="5xh-4v-Zuf" id="f0e-e2-K9Z"/>
                         <outlet property="temperatureLabel" destination="lDQ-ow-ERA" id="4YG-DO-9WF"/>
                         <outlet property="weatherCollectionView" destination="6bL-dT-ZcV" id="DbO-Bg-pBQ"/>
                         <outlet property="weatherIconImageView" destination="y7V-Wc-nGR" id="FJj-UI-ZhS"/>
@@ -129,12 +163,13 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="127" y="-27"/>
+            <point key="canvasLocation" x="125.95419847328243" y="-27.464788732394368"/>
         </scene>
     </scenes>
     <resources>
         <image name="03_cloud_color" width="36" height="36"/>
         <image name="thunderstorm" width="160" height="160"/>
+        <image name="wifi.slash" catalog="system" width="128" height="111"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
