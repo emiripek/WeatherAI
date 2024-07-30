@@ -17,14 +17,9 @@ class WeatherVC: UIViewController {
     @IBOutlet weak var noInternetView: UIView!
     
     var forecastData: [WeatherForecastResponse.Forecast] = []
+    var forecastEntities: [ForecastEntity] = []
     var latitude: Double = 41.0082
     var longitude: Double = 28.9784
-    
-    //    // MARK: - Dummy Data for collection view
-    //    let times = ["9AM", "10AM", "11AM", "12PM", "1PM"]
-    //    let temperatures = ["18°", "19°", "24°", "25°", "26°"]
-    //    let weatherIcons = ["01_sunny_color", "03_cloud_color", "04_sun_cloudy_color", "09_light_rain_color", "38_blowing_sand_color"]
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -42,7 +37,7 @@ class WeatherVC: UIViewController {
     }
     
     func configureWeatherCollectionView() {
-        weatherCollectionView.isHidden = false
+        //        weatherCollectionView.isHidden = false
         weatherCollectionView.dataSource = self
         weatherCollectionView.delegate = self
         weatherCollectionView.backgroundColor = .clear
@@ -60,8 +55,8 @@ class WeatherVC: UIViewController {
     func fetchWeatherData(latitude: Double, longitude: Double) {
         guard Reachability.isConnectedToNetwork() else {
             fetchWeatherDataFromCoreData()
-            weatherCollectionView.isHidden = true
-            noInternetView.isHidden = false
+            //            weatherCollectionView.isHidden = true
+            //            noInternetView.isHidden = false
             return
         }
         
@@ -71,6 +66,7 @@ class WeatherVC: UIViewController {
                 DispatchQueue.main.async {
                     self.updateUI(with: weatherResponse)
                 }
+                self.saveWeatherDataToCoreData(weatherResponse)
             case .failure(let error):
                 print("Failed to fetch weather data: \(error)")
                 self.fetchWeatherDataFromCoreData()
@@ -92,6 +88,8 @@ class WeatherVC: UIViewController {
                     self.forecastData = forecastResponse.list
                     self.weatherCollectionView.reloadData()
                 }
+                // Forecast verisini Core Data'ya kaydet
+                self.saveForecastDataToCoreData(forecastResponse)
             case .failure(let error):
                 print("Failed to fetch forecast data: \(error)")
                 self.fetchForecastDataFromCoreData()
@@ -138,18 +136,46 @@ class WeatherVC: UIViewController {
     }
     
     func fetchForecastDataFromCoreData() {
-        // Core Data'dan forecast verilerini çekme işlemi (ekleyebilirsiniz)
+        forecastEntities = CoreDataManager.shared.fetchForecastDataFromCoreData()
+        DispatchQueue.main.async {
+            self.weatherCollectionView.reloadData()
+        }
+    }
+    
+    func saveWeatherDataToCoreData(_ weatherResponse: WeatherResponse) {
+        guard let icon = weatherResponse.weather.first?.icon else { return }
+        let iconURL = URL(string: "https://openweathermap.org/img/wn/\(icon)@4x.png")
+        
+        if let iconURL = iconURL, let iconData = try? Data(contentsOf: iconURL) {
+            CoreDataManager.shared.saveWeatherData(weather: weatherResponse, iconData: iconData)
+        } else {
+            CoreDataManager.shared.saveWeatherData(weather: weatherResponse, iconData: nil)
+        }
+    }
+    
+    func saveForecastDataToCoreData(_ forecastResponse: WeatherForecastResponse) {
+        CoreDataManager.shared.saveForecastData(forecastResponse)
     }
 }
 
 extension WeatherVC: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return forecastData.count
+        if Reachability.isConnectedToNetwork() {
+            return forecastData.count
+        } else {
+            return forecastEntities.count
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: WeatherCollectionViewCell.identifier, for: indexPath) as! WeatherCollectionViewCell
-        cell.populate(forecast: forecastData[indexPath.row])
+        
+        if Reachability.isConnectedToNetwork() {
+            cell.populate(forecast: forecastData[indexPath.row])
+        } else {
+            cell.populate(forecastEntity: forecastEntities[indexPath.row])
+        }
+        
         return cell
     }
 }

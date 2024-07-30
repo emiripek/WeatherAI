@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import CoreData
 
 class NetworkManager {
     static let shared = NetworkManager()
@@ -70,6 +71,8 @@ class NetworkManager {
             
             do {
                 let forecastResponse = try JSONDecoder().decode(WeatherForecastResponse.self, from: data)
+                CoreDataManager.shared.saveForecastData(forecastResponse)
+                
                 completion(.success(forecastResponse))
             } catch {
                 completion(.failure(error))

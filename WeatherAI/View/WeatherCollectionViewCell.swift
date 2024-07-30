@@ -20,12 +20,23 @@ final class WeatherCollectionViewCell: UICollectionViewCell {
             loadImage(from: icon)
         }
     }
-
+    
+    func populate(forecastEntity: ForecastEntity) {
+        self.timeLabel.text = forecastEntity.date
+        self.hourlyTemperatureLabel.text = "\(Int(forecastEntity.temperature))°"
+        
+        if let iconData = forecastEntity.iconData, let image = UIImage(data: iconData) {
+            self.weatherImageView.image = image
+        } else if let icon = forecastEntity.icon {
+            loadImage(from: icon)
+        }
+    }
+    
     private func loadImage(from icon: String) {
         guard let iconURL = URL(string: "https://openweathermap.org/img/wn/\(icon)@2x.png") else {
             return
         }
-
+        
         DispatchQueue.global().async {
             if let data = try? Data(contentsOf: iconURL), let image = UIImage(data: data) {
                 DispatchQueue.main.async {
